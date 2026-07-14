@@ -1,16 +1,18 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
-import seaborn as sns
+from pathlib import Path
 
 st.set_page_config(
     page_title="Exploratory Data Analysis",
     layout="wide"
 )
 
+BASE_DIR = Path(__file__).resolve().parents[2]
+ASSETS = BASE_DIR / "app" / "assets"
+
 st.title("Exploratory Data Analysis")
 
-df = pd.read_csv("data/raw/student_dropout_dataset_v3.csv")
+df = pd.read_csv(BASE_DIR / "data" / "raw" / "student_dropout_dataset_v3.csv")
 
 st.header("Descriptive Statistics")
 
@@ -42,8 +44,6 @@ st.write(
 )
 
 st.image(
-    ASSETS/"correlation_heatmap.png",
+    ASSETS / "correlation_heatmap.png",
     use_container_width=True
 )
-
-st.pyplot(fig)
