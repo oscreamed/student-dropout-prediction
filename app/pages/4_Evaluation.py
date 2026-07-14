@@ -12,13 +12,12 @@ ASSETS = BASE_DIR / "app" / "assets"
 
 st.title("Model Evaluation")
 
-st.write("""
-This page summarizes the performance of all machine learning models evaluated in this project.
+st.markdown("""
+This page summarizes the performance of the machine learning models evaluated
+during the development process.
 """)
 
-st.divider()
-
-st.header("Performance Metrics")
+st.header("Model Performance")
 
 comparison = pd.DataFrame({
     "Model":[
@@ -27,15 +26,21 @@ comparison = pd.DataFrame({
         "XGBoost"
     ],
     "Accuracy":[
-        74.40,
-        71.35,
+        79.80,
+        78.60,
         79.60
     ]
 })
 
-st.dataframe(comparison, hide_index=True, use_container_width=True)
+st.dataframe(
+    comparison,
+    hide_index=True,
+    use_container_width=True
+)
 
-st.bar_chart(comparison.set_index("Model"))
+st.bar_chart(
+    comparison.set_index("Model")
+)
 
 st.divider()
 
@@ -57,7 +62,13 @@ st.image(
 
 st.divider()
 
-st.success("""
-**Best Model: XGBoost**
+st.header("Evaluation Summary")
 
-XGBoost achieved the highest accuracy (79.60%) and was selected as the final model for deployment.""")
+st.success("""
+Logistic Regression achieved the best overall performance among the evaluated models.
+
+The model obtained the highest accuracy and ROC-AUC score while providing
+a balanced classification performance and good interpretability.
+
+Therefore, Logistic Regression was selected as the final model for deployment.
+""")

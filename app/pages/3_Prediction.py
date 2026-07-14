@@ -1,24 +1,27 @@
 import streamlit as st
 import pandas as pd
-from xgboost import XGBClassifier
+import joblib
 from pathlib import Path
 
 st.set_page_config(
     page_title="Prediction",
-    page_icon="🤖",
     layout="wide"
 )
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 
-model = XGBClassifier()
-model.load_model(BASE_DIR / "models" / "best_model.json")
+model = joblib.load(BASE_DIR / "models" / "best_model.pkl")
+scaler = joblib.load(BASE_DIR / "models" / "scaler.pkl")
 
 st.title("Student Dropout Prediction")
 
 st.write("""
-Enter the student's information below, then click **Predict**
-to estimate whether the student is more likely to **Graduate** or **Dropout**.
+Enter the student information below and click **Predict**
+to estimate whether the student is more likely to **Graduate**
+or **Dropout**.
+
+The prediction is generated using the Logistic Regression model,
+which achieved the best overall performance during model evaluation.
 """)
 
 col1, col2 = st.columns(2)
@@ -125,29 +128,24 @@ with col2:
     semester = st.selectbox(
         "Semester",
         [0, 1, 2, 3],
-        format_func=lambda x: f"Semester {x+1}"
+        format_func=lambda x: f"Semester {x + 1}"
     )
 
     department = st.selectbox(
         "Department",
         [0, 1, 2, 3, 4],
-        format_func=lambda x: f"Department {x+1}"
+        format_func=lambda x: f"Department {x + 1}"
     )
 
     parent = st.selectbox(
         "Parental Education",
         [0, 1, 2, 3],
-        format_func=lambda x: f"Level {x+1}"
+        format_func=lambda x: f"Level {x + 1}"
     )
-
-# ==========================================================
-# PREDICTION
-# ==========================================================
 
 if st.button("Predict", use_container_width=True):
 
     input_data = pd.DataFrame([[
-
         age,
         gender,
         family_income,
@@ -165,9 +163,7 @@ if st.button("Predict", use_container_width=True):
         semester,
         department,
         parent
-
     ]], columns=[
-
         "Age",
         "Gender",
         "Family_Income",
@@ -185,12 +181,12 @@ if st.button("Predict", use_container_width=True):
         "Semester",
         "Department",
         "Parental_Education"
-
     ])
 
-    prediction = model.predict(input_data)[0]
+    input_scaled = scaler.transform(input_data)
 
-    probability = model.predict_proba(input_data)[0]
+    prediction = model.predict(input_scaled)[0]
+    probability = model.predict_proba(input_scaled)[0]
 
     graduate_prob = probability[0] * 100
     dropout_prob = probability[1] * 100
@@ -215,20 +211,20 @@ if st.button("Predict", use_container_width=True):
 
     if prediction == 0:
 
-        st.success("Prediction: Graduate")
+        st.success("Prediction Result: Graduate")
 
         st.info("""
-The model predicts that the student is likely to graduate successfully.
+The model predicts that the student is likely to successfully complete their study program.
 
-Maintaining good academic performance and attendance is recommended.
+Maintaining good academic performance, attendance, and consistent study habits is recommended to sustain this outcome.
 """)
 
     else:
 
-        st.error("Prediction: Dropout")
+        st.error("Prediction Result: Dropout")
 
         st.warning("""
-The model predicts that the student has a relatively high risk of dropping out.
+The model predicts that the student has a relatively higher risk of dropping out.
 
-Additional academic support and regular monitoring are recommended.
+Additional academic support and continuous monitoring are recommended to improve the student's likelihood of graduation.
 """)

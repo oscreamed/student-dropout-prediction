@@ -1,158 +1,240 @@
-# Student Dropout Prediction System
+import streamlit as st
+import pandas as pd
+from xgboost import XGBClassifier
+from pathlib import Path
 
-## Project Overview
+st.set_page_config(
+    page_title="Prediction",
+    page_icon="🤖",
+    layout="wide"
+)
 
-Student Dropout Prediction System is a Machine Learning application developed to predict whether a student is likely to **Graduate** or **Dropout** based on academic and socio-economic factors.
+BASE_DIR = Path(__file__).resolve().parents[2]
 
-This project applies supervised machine learning techniques to support early identification of students at risk, enabling educational institutions to provide timely academic interventions.
+model = XGBClassifier()
+model.load_model(BASE_DIR / "models" / "best_model.json")
 
----
+st.title("Student Dropout Prediction")
 
-## Project Objectives
+st.write("""
+Enter the student information below and click **Predict**
+to estimate whether the student is more likely to **Graduate**
+or **Dropout**.
 
-- Analyze factors influencing student dropout.
-- Compare multiple classification algorithms.
-- Select the best-performing model.
-- Interpret model predictions using SHAP.
-- Deploy the final model using Streamlit.
+The prediction is generated using the Logistic Regression model
+selected during the model evaluation process.
+""")
 
----
+col1, col2 = st.columns(2)
 
-## Dataset
+with col1:
 
-The dataset contains student demographic, academic, and socio-economic information, including:
+    st.subheader("Student Information")
 
-- Age
-- Gender
-- Family Income
-- Internet Access
-- Study Hours
-- Attendance Rate
-- GPA
-- Semester GPA
-- CGPA
-- Scholarship
-- Department
-- Stress Index
-- Travel Time
-- Parental Education
+    age = st.number_input(
+        "Age",
+        min_value=17.0,
+        max_value=40.0,
+        value=20.0
+    )
 
-Target Variable:
+    gender = st.selectbox(
+        "Gender",
+        [0, 1],
+        format_func=lambda x: "Female" if x == 0 else "Male"
+    )
 
-- Graduate
-- Dropout
+    family_income = st.number_input(
+        "Family Income",
+        min_value=0.0,
+        value=5000.0
+    )
 
----
+    internet = st.selectbox(
+        "Internet Access",
+        [0, 1],
+        format_func=lambda x: "No" if x == 0 else "Yes"
+    )
 
-## Project Structure
+    study_hours = st.number_input(
+        "Study Hours per Day",
+        min_value=0.0,
+        max_value=24.0,
+        value=4.0
+    )
 
-```text
-student-dropout-prediction/
-│
-├── app/
-├── data/
-├── models/
-├── notebooks/
-├── reports/
-├── src/
-├── requirements.txt
-├── README.md
-└── .gitignore
-```
+    attendance = st.slider(
+        "Attendance Rate (%)",
+        0.0,
+        100.0,
+        80.0
+    )
 
----
+    assignment_delay = st.number_input(
+        "Assignment Delay (Days)",
+        min_value=0,
+        value=2
+    )
 
-## Machine Learning Workflow
+with col2:
 
-1. Data Understanding
-2. Data Preparation
-3. Feature Engineering
-4. Model Training
-5. Hyperparameter Tuning
-6. Model Evaluation
-7. Model Interpretation
-8. Deployment
+    st.subheader("Academic Information")
 
----
+    travel_time = st.number_input(
+        "Travel Time (Minutes)",
+        min_value=0.0,
+        value=30.0
+    )
 
-## Machine Learning Models
+    parttime = st.selectbox(
+        "Part-Time Job",
+        [0, 1],
+        format_func=lambda x: "No" if x == 0 else "Yes"
+    )
 
-The following models were evaluated:
+    scholarship = st.selectbox(
+        "Scholarship",
+        [0, 1],
+        format_func=lambda x: "No" if x == 0 else "Yes"
+    )
 
-- Logistic Regression
-- Decision Tree
-- XGBoost
+    stress = st.slider(
+        "Stress Index",
+        0.0,
+        10.0,
+        5.0
+    )
 
-### Final Model
+    gpa = st.number_input(
+        "GPA",
+        min_value=0.0,
+        max_value=4.0,
+        value=3.00
+    )
 
-**XGBoost**
+    semester_gpa = st.number_input(
+        "Semester GPA",
+        min_value=0.0,
+        max_value=4.0,
+        value=3.00
+    )
 
-Performance:
+    cgpa = st.number_input(
+        "CGPA",
+        min_value=0.0,
+        max_value=4.0,
+        value=3.00
+    )
 
-| Metric | Score |
-|--------|--------|
-| Accuracy | 79.60% |
-| Precision | 0.63 |
-| Recall | 0.31 |
-| F1-Score | 0.42 |
+    semester = st.selectbox(
+        "Semester",
+        [0, 1, 2, 3],
+        format_func=lambda x: f"Semester {x+1}"
+    )
 
----
+    department = st.selectbox(
+        "Department",
+        [0, 1, 2, 3, 4],
+        format_func=lambda x: f"Department {x+1}"
+    )
 
-## Model Interpretation
+    parent = st.selectbox(
+        "Parental Education",
+        [0, 1, 2, 3],
+        format_func=lambda x: f"Level {x+1}"
+    )
 
-Model interpretation was performed using:
+# ==========================================================
+# PREDICTION
+# ==========================================================
 
-- Feature Importance
-- SHAP Summary Plot
+if st.button("Predict", use_container_width=True):
 
-The most influential features include:
+    input_data = pd.DataFrame([[
 
-- GPA
-- CGPA
-- Attendance Rate
-- Study Hours per Day
+        age,
+        gender,
+        family_income,
+        internet,
+        study_hours,
+        attendance,
+        assignment_delay,
+        travel_time,
+        parttime,
+        scholarship,
+        stress,
+        gpa,
+        semester_gpa,
+        cgpa,
+        semester,
+        department,
+        parent
 
----
+    ]], columns=[
 
-## Technologies
+        "Age",
+        "Gender",
+        "Family_Income",
+        "Internet_Access",
+        "Study_Hours_per_Day",
+        "Attendance_Rate",
+        "Assignment_Delay_Days",
+        "Travel_Time_Minutes",
+        "Part_Time_Job",
+        "Scholarship",
+        "Stress_Index",
+        "GPA",
+        "Semester_GPA",
+        "CGPA",
+        "Semester",
+        "Department",
+        "Parental_Education"
 
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
-- XGBoost
-- SHAP
-- Matplotlib
-- Seaborn
-- Plotly
-- Streamlit
+    ])
 
----
+    prediction = model.predict(input_data)[0]
 
-## Installation
+    probability = model.predict_proba(input_data)[0]
 
-Clone the repository:
+    graduate_prob = probability[0] * 100
+    dropout_prob = probability[1] * 100
 
-```bash
-git clone https://github.com/USERNAME/student-dropout-prediction.git
-```
+    st.divider()
 
-Install dependencies:
+    st.subheader("Prediction Result")
 
-```bash
-pip install -r requirements.txt
-```
+    col1, col2 = st.columns(2)
 
-Run the application:
+    with col1:
+        st.metric(
+            "Graduate Probability",
+            f"{graduate_prob:.2f}%"
+        )
 
-```bash
-streamlit run app/app.py
-```
+    with col2:
+        st.metric(
+            "Dropout Probability",
+            f"{dropout_prob:.2f}%"
+        )
 
----
+    if prediction == 0:
 
-## Author
+        st.success("Prediction Result: Graduate")
 
-Machine Learning Final Project
+st.info("""
+The model predicts that the student is likely to successfully complete
+their study program.
 
-Student Dropout Prediction System
+Maintaining consistent academic performance and attendance is recommended
+to sustain this outcome.
+""")
+
+    else:
+
+        st.error("Prediction Result: Dropout")
+
+st.warning("""
+The model predicts that the student has a relatively higher risk of dropping out.
+
+Additional academic support and continuous monitoring may help reduce this risk.
+""")

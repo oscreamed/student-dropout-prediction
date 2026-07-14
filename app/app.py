@@ -5,109 +5,30 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title("Student Dropout Prediction System")
+st.title("Student Dropout Prediction")
 
 st.markdown("""
-Welcome to the **Student Dropout Prediction System**.
+Welcome to the **Student Dropout Prediction** application.
 
-This application was developed to predict whether a student is likely to **Graduate** or **Dropout** using a Machine Learning model.
+This application predicts whether a student is likely to **Graduate** or **Dropout**
+using a **Logistic Regression** machine learning model.
 
-The best-performing model selected in this project is **XGBoost**, trained and evaluated using various classification metrics and interpreted using **SHAP (SHapley Additive exPlanations)**.
+The prediction is based on various academic and socio-economic factors such as academic performance,
+attendance, study habits, financial background, and other student-related attributes.
+
+Use the navigation menu on the left to explore the dataset, perform exploratory data analysis,
+generate predictions, evaluate the model, and understand the factors influencing the prediction results.
 """)
 
 st.divider()
 
-# =====================================================
-# Project Objective
-# =====================================================
-
-st.header("Project Objective")
-
-st.write("""
-The objective of this project is to identify students who are at risk of dropping out as early as possible.
-
-Early prediction enables universities to provide appropriate academic support and interventions, helping improve student retention and graduation rates.
-""")
-
-# =====================================================
-# Workflow
-# =====================================================
-
-st.divider()
-
-st.header("⚙️ Machine Learning Workflow")
+st.subheader("Application Pages")
 
 st.markdown("""
-1. Data Understanding
-2. Data Preparation
-3. Model Training
-4. Hyperparameter Tuning
-5. Model Evaluation
-6. Model Interpretation using SHAP
-7. Deployment with Streamlit
+- **Dashboard** – Overview of the dataset.
+- **EDA** – Exploratory Data Analysis.
+- **Prediction** – Predict student graduation or dropout.
+- **Evaluation** – Performance comparison of machine learning models.
+- **Interpretation** – Explain model predictions using Feature Importance and SHAP.
+- **About** – Project information.
 """)
-
-# =====================================================
-# Technologies
-# =====================================================
-
-st.divider()
-
-st.header("🛠 Technologies")
-
-col1, col2 = st.columns(2)
-
-with col1:
-    st.markdown("""
-**Programming Language**
-- Python
-
-**Machine Learning**
-- XGBoost
-- Scikit-learn
-
-**Model Interpretation**
-- SHAP
-""")
-
-with col2:
-    st.markdown("""
-**Data Processing**
-- Pandas
-- NumPy
-
-**Visualization**
-- Matplotlib
-- Seaborn
-- Plotly
-
-**Deployment**
-- Streamlit
-""")
-
-# =====================================================
-# Navigation
-# =====================================================
-
-st.divider()
-
-st.header("Application Pages")
-
-st.info("""
-Use the navigation menu on the left to explore each section of the application.
-
-- Dashboard
-- Exploratory Data Analysis (EDA)
-- Prediction
-- Evaluation
-- Interpretation
-- About
-""")
-
-# =====================================================
-# Footer
-# =====================================================
-
-st.divider()
-
-st.caption("Machine Learning Final Project | Student Dropout Prediction using XGBoost")

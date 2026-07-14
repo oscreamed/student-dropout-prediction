@@ -2,24 +2,21 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
-from pathlib import Path
 
 st.set_page_config(
-    page_title="EDA",
+    page_title="Exploratory Data Analysis",
     layout="wide"
 )
 
-BASE_DIR = Path(__file__).resolve().parents[2]
-
-df = pd.read_csv(BASE_DIR / "data/raw/student_dropout_dataset_v3.csv")
-
 st.title("Exploratory Data Analysis")
 
-st.write("""This page presents descriptive statistics and exploratory analysis of the dataset.""")
-
-st.divider()
+df = pd.read_csv("data/raw/student_dropout_dataset_v3.csv")
 
 st.header("Descriptive Statistics")
+
+st.write(
+    "The descriptive statistics summarize the numerical variables contained in the dataset."
+)
 
 st.dataframe(df.describe(), use_container_width=True)
 
@@ -27,13 +24,22 @@ st.divider()
 
 st.header("Missing Values")
 
-missing = df.isnull().sum().to_frame("Missing Values")
+st.write(
+    "The table below presents the number of missing values for each feature."
+)
 
-st.dataframe(missing)
+st.dataframe(
+    df.isnull().sum().to_frame("Missing Values"),
+    use_container_width=True
+)
 
 st.divider()
 
-st.header("Correlation Heatmap")
+st.header("Correlation Matrix")
+
+st.write(
+    "The correlation heatmap illustrates the relationships among numerical features."
+)
 
 fig, ax = plt.subplots(figsize=(12,8))
 

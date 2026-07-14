@@ -7,43 +7,34 @@ st.set_page_config(
 
 st.title("About")
 
-st.write("""
-This application was developed as the final project for the Machine Learning course.
-""")
-
-st.divider()
-
-st.header("Project Overview")
-
-st.write("""
-The objective of this project is to predict whether a student is likely to Graduate or Dropout using machine learning techniques.
-""")
-
-st.divider()
-
-st.header("Dataset")
-
-st.write("""
-The dataset contains academic and socio-economic information related to student performance and graduation status.
-""")
-
-st.divider()
-
-st.header("Methodology")
-
 st.markdown("""
+## Student Dropout Prediction
+
+This project was developed as the final project for the Machine Learning course.
+
+The objective of this application is to predict whether a student is likely
+to graduate or drop out using machine learning techniques.
+
+The project includes the following stages:
+
 - Data Understanding
 - Data Preparation
-- Model Training
-- Hyperparameter Tuning
+- Exploratory Data Analysis
+- Machine Learning Model Development
 - Model Evaluation
-- SHAP Interpretation
+- Model Interpretation
 - Streamlit Deployment
+
+Three classification algorithms were evaluated:
+- Logistic Regression
+- Decision Tree
+- XGBoost
+
+Based on the evaluation results, Logistic Regression achieved the best overall
+performance and was selected as the final deployment model.
 """)
 
-st.divider()
-
-st.header("Technologies")
+st.subheader("Technologies")
 
 st.markdown("""
 - Python
@@ -52,17 +43,7 @@ st.markdown("""
 - Scikit-learn
 - XGBoost
 - SHAP
-- Streamlit
 - Matplotlib
 - Seaborn
-""")
-
-st.divider()
-
-st.header("Developer")
-
-st.write("""
-Machine Learning Final Project
-
-Student Dropout Prediction using XGBoost
+- Streamlit
 """)
