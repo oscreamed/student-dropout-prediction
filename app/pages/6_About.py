@@ -7,6 +7,8 @@ st.set_page_config(
 
 st.title("About")
 
+st.divider()
+
 st.markdown("""
 ## Student Dropout Prediction
 
@@ -33,6 +35,8 @@ Three classification algorithms were evaluated:
 Based on the evaluation results, Logistic Regression achieved the best overall
 performance and was selected as the final deployment model.
 """)
+
+st.divider()
 
 st.subheader("Technologies")
 

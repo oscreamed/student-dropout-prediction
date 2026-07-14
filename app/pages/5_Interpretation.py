@@ -16,6 +16,8 @@ Model interpretation helps identify the variables that have the greatest influen
 on student dropout prediction.
 """)
 
+st.divider()
+
 st.header("Feature Importance")
 
 st.image(

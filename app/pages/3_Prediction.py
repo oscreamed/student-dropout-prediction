@@ -24,6 +24,9 @@ The prediction is generated using the Logistic Regression model,
 which achieved the best overall performance during model evaluation.
 """)
 
+st.divider()
+
+
 col1, col2 = st.columns(2)
 
 with col1:

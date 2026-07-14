@@ -7,6 +7,8 @@ st.set_page_config(
 
 st.title("Student Dropout Prediction")
 
+st.divider()
+
 st.markdown("""
 Welcome to the **Student Dropout Prediction** application.
 

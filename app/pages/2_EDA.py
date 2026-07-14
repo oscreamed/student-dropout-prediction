@@ -12,6 +12,8 @@ ASSETS = BASE_DIR / "app" / "assets"
 
 st.title("Exploratory Data Analysis")
 
+st.divider()
+
 df = pd.read_csv(BASE_DIR / "data" / "raw" / "student_dropout_dataset_v3.csv")
 
 st.header("Descriptive Statistics")

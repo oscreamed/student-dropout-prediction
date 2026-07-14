@@ -17,6 +17,8 @@ This page summarizes the performance of the machine learning models evaluated
 during the development process.
 """)
 
+st.divider()
+
 st.header("Model Performance")
 
 comparison = pd.DataFrame({
