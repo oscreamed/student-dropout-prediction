@@ -22,13 +22,13 @@ st.header("Model Performance")
 comparison = pd.DataFrame({
     "Model":[
         "Logistic Regression",
-        "Decision Tree",
-        "XGBoost"
+        "XGBoost",
+        "Decision Tree"
     ],
     "Accuracy":[
         79.80,
-        78.60,
-        79.60
+        79.60,
+        78.60
     ]
 })
 
