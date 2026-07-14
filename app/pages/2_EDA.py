@@ -41,12 +41,9 @@ st.write(
     "The correlation heatmap illustrates the relationships among numerical features."
 )
 
-fig, ax = plt.subplots(figsize=(12,8))
-
-sns.heatmap(
-    df.select_dtypes(include="number").corr(),
-    cmap="Blues",
-    ax=ax
+st.image(
+    ASSETS/"correlation_heatmap.png",
+    use_container_width=True
 )
 
 st.pyplot(fig)
