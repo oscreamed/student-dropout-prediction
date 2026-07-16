@@ -157,10 +157,11 @@ with col2:
         [0, 1, 2, 3],
         format_func=lambda x: f"Level {x + 1}"
     )
-st.caption("""
-Parental Education is encoded into four education levels,
-where higher levels represent higher educational attainment.
-""")
+
+    st.info("""
+    Parental Education is encoded into four education levels,
+    where higher levels represent higher educational attainment.
+    """)
 
 if st.button("Predict", use_container_width=True):
 
