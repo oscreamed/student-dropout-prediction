@@ -53,6 +53,15 @@ st.image(
     use_container_width=True
 )
 
+st.write("""
+The confusion matrix summarizes the classification performance by comparing
+actual labels with predicted labels.
+
+Most Graduate cases are correctly classified, although a number of Dropout
+cases are still misclassified. This indicates that the model performs well
+overall while still facing challenges in identifying the minority class.
+""")
+
 st.divider()
 
 st.header("ROC Curve")
@@ -61,6 +70,15 @@ st.image(
     ASSETS/"roc_curve.png",
     use_container_width=True
 )
+
+st.write("""
+The ROC Curve evaluates the model's ability to distinguish between Graduate
+and Dropout classes across different classification thresholds.
+
+A curve closer to the upper-left corner and a higher AUC value indicate
+better classification performance. The results demonstrate that Logistic
+Regression provides good discriminative capability.
+""")
 
 st.divider()
 

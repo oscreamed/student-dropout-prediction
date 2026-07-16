@@ -135,9 +135,21 @@ with col2:
     )
 
     department = st.selectbox(
-        "Department",
-        [0, 1, 2, 3, 4],
-        format_func=lambda x: f"Department {x + 1}"
+    "Department",
+    {
+        0: "Engineering",
+        1: "Business",
+        2: "Health Sciences",
+        3: "Education",
+        4: "Arts"
+    }.keys(),
+    format_func=lambda x: {
+        0: "Engineering",
+        1: "Business",
+        2: "Health Sciences",
+        3: "Education",
+        4: "Arts"
+    }[x]
     )
 
     parent = st.selectbox(
@@ -145,6 +157,10 @@ with col2:
         [0, 1, 2, 3],
         format_func=lambda x: f"Level {x + 1}"
     )
+st.caption("""
+Parental Education is encoded into four education levels,
+where higher levels represent higher educational attainment.
+""")
 
 if st.button("Predict", use_container_width=True):
 

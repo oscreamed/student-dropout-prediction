@@ -26,8 +26,13 @@ st.image(
 )
 
 st.write("""
-Feature Importance indicates that variables related to academic performance,
-attendance, and study behavior contribute significantly to the prediction results.
+Feature Importance identifies which variables contribute the most to the
+prediction process.
+
+The analysis shows that GPA is the most influential feature, followed by
+Stress Index, Attendance Rate, Semester GPA, Travel Time Minutes, and
+Assignment Delay Days. These findings indicate that academic performance
+plays the most significant role in predicting student dropout.
 """)
 
 st.divider()
@@ -40,10 +45,11 @@ st.image(
 )
 
 st.write("""
-SHAP values provide a detailed explanation of how each feature contributes
-to individual predictions.
+The SHAP Summary Plot explains how each feature influences the model's
+predictions.
 
-Although SHAP visualization is generated using XGBoost due to its compatibility
-with tree-based interpretation techniques, Logistic Regression remains the
-final model selected for deployment based on the evaluation results.
+Higher GPA values generally contribute toward predicting Graduate, whereas
+higher Stress Index values tend to increase the probability of Dropout.
+Overall, GPA remains the most influential feature, followed by Stress Index
+and Attendance Rate.
 """)
