@@ -45,6 +45,15 @@ st.write(
     "The correlation heatmap illustrates the relationships among numerical features."
 )
 
+st.info("""
+The correlation heatmap illustrates the relationships among numerical features.
+
+GPA, Semester GPA, and CGPA show strong positive correlations because they
+represent similar aspects of academic performance. In contrast, Stress Index
+is positively associated with dropout risk, while GPA has a negative
+relationship with dropout.
+""")
+
 st.image(
     ASSETS / "correlation_heatmap.png",
     use_container_width=True
