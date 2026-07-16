@@ -1,240 +1,185 @@
-import streamlit as st
-import pandas as pd
-from xgboost import XGBClassifier
-from pathlib import Path
+# Student Dropout Prediction System
 
-st.set_page_config(
-    page_title="Prediction",
-    page_icon="🤖",
-    layout="wide"
-)
+## Overview
 
-BASE_DIR = Path(__file__).resolve().parents[2]
+Student Dropout Prediction System is a Machine Learning application developed to predict whether a student is likely to **Graduate** or **Dropout** based on academic, demographic, and socio-economic factors.
 
-model = XGBClassifier()
-model.load_model(BASE_DIR / "models" / "best_model.json")
+The project compares multiple classification algorithms and deploys the best-performing model using Streamlit.
 
-st.title("Student Dropout Prediction")
+---
 
-st.write("""
-Enter the student information below and click **Predict**
-to estimate whether the student is more likely to **Graduate**
-or **Dropout**.
+## Objectives
 
-The prediction is generated using the Logistic Regression model
-selected during the model evaluation process.
-""")
+- Analyze factors related to student dropout.
+- Compare multiple machine learning classification algorithms.
+- Select the best-performing model.
+- Interpret the prediction results.
+- Deploy the final model as an interactive web application.
 
-col1, col2 = st.columns(2)
+---
 
-with col1:
+## Dataset
 
-    st.subheader("Student Information")
+The dataset contains student information such as:
 
-    age = st.number_input(
-        "Age",
-        min_value=17.0,
-        max_value=40.0,
-        value=20.0
-    )
+- Age
+- Gender
+- Family Income
+- Internet Access
+- Study Hours per Day
+- Attendance Rate
+- Assignment Delay Days
+- Travel Time Minutes
+- Part-Time Job
+- Scholarship
+- Stress Index
+- GPA
+- Semester GPA
+- CGPA
+- Semester
+- Department
+- Parental Education
 
-    gender = st.selectbox(
-        "Gender",
-        [0, 1],
-        format_func=lambda x: "Female" if x == 0 else "Male"
-    )
+Target Variable:
 
-    family_income = st.number_input(
-        "Family Income",
-        min_value=0.0,
-        value=5000.0
-    )
+- Graduate (0)
+- Dropout (1)
 
-    internet = st.selectbox(
-        "Internet Access",
-        [0, 1],
-        format_func=lambda x: "No" if x == 0 else "Yes"
-    )
+---
 
-    study_hours = st.number_input(
-        "Study Hours per Day",
-        min_value=0.0,
-        max_value=24.0,
-        value=4.0
-    )
+## Machine Learning Workflow
 
-    attendance = st.slider(
-        "Attendance Rate (%)",
-        0.0,
-        100.0,
-        80.0
-    )
+1. Data Understanding
+2. Data Preparation
+3. Exploratory Data Analysis
+4. Model Development
+5. Hyperparameter Tuning
+6. Model Evaluation
+7. Model Interpretation
+8. Deployment
 
-    assignment_delay = st.number_input(
-        "Assignment Delay (Days)",
-        min_value=0,
-        value=2
-    )
+---
 
-with col2:
+## Models Evaluated
 
-    st.subheader("Academic Information")
+- Logistic Regression
+- Decision Tree
+- XGBoost
 
-    travel_time = st.number_input(
-        "Travel Time (Minutes)",
-        min_value=0.0,
-        value=30.0
-    )
+### Best Model
 
-    parttime = st.selectbox(
-        "Part-Time Job",
-        [0, 1],
-        format_func=lambda x: "No" if x == 0 else "Yes"
-    )
+**Logistic Regression**
 
-    scholarship = st.selectbox(
-        "Scholarship",
-        [0, 1],
-        format_func=lambda x: "No" if x == 0 else "Yes"
-    )
+Performance on the test set:
 
-    stress = st.slider(
-        "Stress Index",
-        0.0,
-        10.0,
-        5.0
-    )
+| Metric | Score |
+|--------|--------:|
+| Accuracy | 79.80% |
+| Precision | 0.62 |
+| Recall | 0.35 |
+| F1-Score | 0.45 |
 
-    gpa = st.number_input(
-        "GPA",
-        min_value=0.0,
-        max_value=4.0,
-        value=3.00
-    )
+---
 
-    semester_gpa = st.number_input(
-        "Semester GPA",
-        min_value=0.0,
-        max_value=4.0,
-        value=3.00
-    )
+## Model Interpretation
 
-    cgpa = st.number_input(
-        "CGPA",
-        min_value=0.0,
-        max_value=4.0,
-        value=3.00
-    )
+Feature interpretation was performed using:
 
-    semester = st.selectbox(
-        "Semester",
-        [0, 1, 2, 3],
-        format_func=lambda x: f"Semester {x+1}"
-    )
+- Feature Importance
+- SHAP (SHapley Additive exPlanations)
 
-    department = st.selectbox(
-        "Department",
-        [0, 1, 2, 3, 4],
-        format_func=lambda x: f"Department {x+1}"
-    )
+The analysis shows that academic performance is the strongest predictor of student graduation status. GPA is the most influential feature, followed by Stress Index, Attendance Rate, Semester GPA, and Travel Time Minutes.
 
-    parent = st.selectbox(
-        "Parental Education",
-        [0, 1, 2, 3],
-        format_func=lambda x: f"Level {x+1}"
-    )
+---
 
-# ==========================================================
-# PREDICTION
-# ==========================================================
+## Deployment
 
-if st.button("Predict", use_container_width=True):
+The final model was deployed using **Streamlit**.
 
-    input_data = pd.DataFrame([[
+The application allows users to:
 
-        age,
-        gender,
-        family_income,
-        internet,
-        study_hours,
-        attendance,
-        assignment_delay,
-        travel_time,
-        parttime,
-        scholarship,
-        stress,
-        gpa,
-        semester_gpa,
-        cgpa,
-        semester,
-        department,
-        parent
+- Explore the dataset
+- View model evaluation results
+- Interpret feature importance
+- Predict student graduation status interactively
 
-    ]], columns=[
+---
 
-        "Age",
-        "Gender",
-        "Family_Income",
-        "Internet_Access",
-        "Study_Hours_per_Day",
-        "Attendance_Rate",
-        "Assignment_Delay_Days",
-        "Travel_Time_Minutes",
-        "Part_Time_Job",
-        "Scholarship",
-        "Stress_Index",
-        "GPA",
-        "Semester_GPA",
-        "CGPA",
-        "Semester",
-        "Department",
-        "Parental_Education"
+## Technologies
 
-    ])
+- Python
+- Pandas
+- NumPy
+- Scikit-learn
+- XGBoost
+- SHAP
+- Matplotlib
+- Seaborn
+- Streamlit
 
-    prediction = model.predict(input_data)[0]
+---
 
-    probability = model.predict_proba(input_data)[0]
+## Project Structure
 
-    graduate_prob = probability[0] * 100
-    dropout_prob = probability[1] * 100
+```
+student-dropout-prediction/
+│
+├── app/
+│   ├── app.py
+│   ├── assets/
+│   └── pages/
+│
+├── data/
+├── models/
+├── notebooks/
+├── reports/
+├── src/
+├── requirements.txt
+├── README.md
+└── .gitignore
+```
 
-    st.divider()
+---
 
-    st.subheader("Prediction Result")
+## Installation
 
-    col1, col2 = st.columns(2)
+Clone the repository:
 
-    with col1:
-        st.metric(
-            "Graduate Probability",
-            f"{graduate_prob:.2f}%"
-        )
+```bash
+git clone https://github.com/oscreamed/student-dropout-prediction.git
+```
 
-    with col2:
-        st.metric(
-            "Dropout Probability",
-            f"{dropout_prob:.2f}%"
-        )
+Install dependencies:
 
-    if prediction == 0:
+```bash
+pip install -r requirements.txt
+```
 
-        st.success("Prediction Result: Graduate")
+Run the application:
 
-st.info("""
-The model predicts that the student is likely to successfully complete
-their study program.
+```bash
+streamlit run app/app.py
+```
 
-Maintaining consistent academic performance and attendance is recommended
-to sustain this outcome.
-""")
+---
 
-    else:
+## Live Demo
 
-        st.error("Prediction Result: Dropout")
+Streamlit App:
 
-st.warning("""
-The model predicts that the student has a relatively higher risk of dropping out.
+https://student-dropout-prediction-by-oza.streamlit.app
 
-Additional academic support and continuous monitoring may help reduce this risk.
-""")
+GitHub Repository:
+
+https://github.com/oscreamed/student-dropout-prediction
+
+---
+
+## Author
+
+**Oryza Sekar Rismadhani**
+
+Bachelor of Informatics Engineering  
+Universitas Dian Nuswantoro
+
+Machine Learning Final Project (2025/2026)
